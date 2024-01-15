@@ -1,17 +1,61 @@
 from rest_framework import serializers
-from .models import Task
+from .models import (
+    Category,
+    Product,
+    Supplier,
+    SalesOrder,
+    SalesOrderItem,
+    PurchaseOrder,
+    PurchaseOrderItem,
+)
 
 
-class TaskSerializer(serializers.ModelSerializer):
+class CategorySerializer(serializers.ModelSerializer):
+    category = serializers.StringRelatedField()
+    supplier = serializers.StringRelatedField()
+
     class Meta:
-        model = Task
+        model = Category
         fields = "__all__"
 
-    def create(self, validated_data):
-        return Task.objects.create(**validated_data)
 
-    def update(self, instance, validated_data):
-        instance.title = validated_data.get("title", instance.title)
-        instance.completed = validated_data.get("completed", instance.completed)
-        instance.save()
-        return instance
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = "__all__"
+
+
+class SupplierSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Supplier
+        fields = "__all__"
+
+
+class SalesOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SalesOrder
+        fields = "__all__"
+
+
+class SalesOrderItemSerializer(serializers.ModelSerializer):
+    product = serializers.StringRelatedField()
+
+    class Meta:
+        model = SalesOrderItem
+        fields = "__all__"
+
+
+class PurchaseOrderSerializer(serializers.ModelSerializer):
+    supplier = serializers.StringRelatedField()
+
+    class Meta:
+        model = PurchaseOrder
+        fields = "__all__"
+
+
+class PurchaseOrderItemSerializer(serializers.ModelSerializer):
+    product = serializers.StringRelatedField()
+
+    class Meta:
+        model = PurchaseOrderItem
+        fields = "__all__"
